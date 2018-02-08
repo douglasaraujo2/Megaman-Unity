@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviour {
 	public float velocidade;
 	public float impulso;
 	public Transform chaoVerificador;
-
+	Animator anima;
 
 
 
@@ -19,14 +19,18 @@ public class PlayerScript : MonoBehaviour {
 	void Start () {
 		sprite = GetComponent<SpriteRenderer> ();
 		rb = GetComponent<Rigidbody2D> ();
+		anima = GetComponent<Animator> ();
+		print (transform.position.y);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetButtonDown ("Jump") && estaNoChao) {
 			rb.velocity = new Vector2 (0.0f, impulso);
-		
-		}
+
+		} 
+		anima.SetBool ("pPular",estaNoChao);
+
 			
 		float mover_x = Input.GetAxisRaw ("Horizontal") * velocidade * Time.deltaTime;
 		transform.Translate (mover_x, 0.0f, 0.0f);
@@ -38,7 +42,7 @@ public class PlayerScript : MonoBehaviour {
 
 		estaNoChao = Physics2D.Linecast (transform.position, chaoVerificador.position, 1 << LayerMask.NameToLayer ("Piso"));
 
-
+		anima.SetFloat ("pMover",	Mathf.Abs (Input.GetAxisRaw ("Horizontal")));
 
 	}
 }
