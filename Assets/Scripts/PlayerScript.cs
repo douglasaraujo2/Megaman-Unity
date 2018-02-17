@@ -20,7 +20,6 @@ public class PlayerScript : MonoBehaviour {
 		sprite = GetComponent<SpriteRenderer> ();
 		rb = GetComponent<Rigidbody2D> ();
 		anima = GetComponent<Animator> ();
-		print (transform.position.y);
 	}
 	
 	// Update is called once per frame
@@ -30,7 +29,11 @@ public class PlayerScript : MonoBehaviour {
 
 		} 
 		anima.SetBool ("pPular",estaNoChao);
-
+		if (Input.GetButtonDown ("Fire1")) {
+			anima.SetBool ("pAtirar", true);
+		} else {
+			anima.SetBool ("pAtirar", false);
+		}
 			
 		float mover_x = Input.GetAxisRaw ("Horizontal") * velocidade * Time.deltaTime;
 		transform.Translate (mover_x, 0.0f, 0.0f);
