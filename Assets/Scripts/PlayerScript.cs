@@ -50,10 +50,6 @@ public class PlayerScript : MonoBehaviour {
         // Animacoes
         animator.SetFloat("pMover", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
         animator.SetBool("pJump", !estaoNoChao); 
-		if (Input.GetButtonDown ("Fire1")) {
-			animator.SetBool ("pFire", true);
-		} else {
-			animator.SetBool ("pFire", false);
-		}
+		animator.SetBool ("pFire", Input.GetButton ("Fire1"));
 	}
 }

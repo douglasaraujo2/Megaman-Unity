@@ -52,8 +52,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\ArmaScript.cs" />
+     <Compile Include="Assets\Scripts\InimigoScript.cs" />
      <Compile Include="Assets\Scripts\PlayerScript.cs" />
      <Compile Include="Assets\Scripts\ProjetilScript.cs" />
+     <Compile Include="Assets\Scripts\SubInimigoScript.cs" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
  <Reference Include="UnityEngine.UI">
