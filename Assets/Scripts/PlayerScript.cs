@@ -6,46 +6,54 @@ public class PlayerScript : MonoBehaviour {
 
 	public float velocidade;
 	public float impulso;
+
 	public Transform chaoVerificador;
-	Animator anima;
+	bool estaoNoChao;
 
-
-
-	//Variaveis Locais
+	SpriteRenderer spriteRender;
 	Rigidbody2D rb;
-	SpriteRenderer sprite;
-	bool estaNoChao;
-	// Use this for initialization
+    Animator animator;
+
 	void Start () {
-		sprite = GetComponent<SpriteRenderer> ();
+		// Interface para os componentes
+		spriteRender = GetComponent<SpriteRenderer>();
 		rb = GetComponent<Rigidbody2D> ();
-		anima = GetComponent<Animator> ();
+        animator = GetComponent<Animator>();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-		if (Input.GetButtonDown ("Jump") && estaNoChao) {
-			rb.velocity = new Vector2 (0.0f, impulso);
-
-		} 
-		anima.SetBool ("pPular",estaNoChao);
-		if (Input.GetButtonDown ("Fire1")) {
-			anima.SetBool ("pAtirar", true);
-		} else {
-			anima.SetBool ("pAtirar", false);
-		}
-			
-		float mover_x = Input.GetAxisRaw ("Horizontal") * velocidade * Time.deltaTime;
+		
+		// Mover
+		float mover_x = Input.GetAxisRaw("Horizontal") * velocidade * Time.deltaTime;
 		transform.Translate (mover_x, 0.0f, 0.0f);
-		if (mover_x > 0) {
-			sprite.flipX = false;
-		} else if (mover_x < 0) {
-			sprite.flipX = true;
+
+		// Verificar colisao com o piso
+		estaoNoChao = Physics2D.Linecast(transform.position, 
+			chaoVerificador.position, 1 << LayerMask.NameToLayer("Piso"));
+
+
+		//print (estaoNoChao);
+
+
+		// Pulo
+		if (Input.GetButtonDown ("Jump") && estaoNoChao) {
+			rb.velocity = new Vector2 (0.0f, impulso); 
 		}
 
-		estaNoChao = Physics2D.Linecast (transform.position, chaoVerificador.position, 1 << LayerMask.NameToLayer ("Piso"));
+		// Orientacao
+		if (mover_x > 0) {
+			spriteRender.flipX = false; 
+		} else if (mover_x < 0) {
+			spriteRender.flipX = true; 
+		}
 
-		anima.SetFloat ("pMover",	Mathf.Abs (Input.GetAxisRaw ("Horizontal")));
-
+        // Animacoes
+        animator.SetFloat("pMover", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
+        animator.SetBool("pJump", !estaoNoChao); 
+		if (Input.GetButtonDown ("Fire1")) {
+			animator.SetBool ("pFire", true);
+		} else {
+			animator.SetBool ("pFire", false);
+		}
 	}
 }
